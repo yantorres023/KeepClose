@@ -155,11 +155,10 @@ delivery, the OS contact picker and SMS/phone intents cannot be exercised headle
   SDK found").
 - **CI**: `.github/workflows/ci.yml` builds a release APK and AAB. Without an upload key
   they are debug-signed, so they are for verifying the build only.
-- **CI status at time of writing:**
-  - The format, analyze and test job **passed** on GitHub (including goldens).
-  - The first Android build **failed** because of a Gradle Kotlin DSL error (`java.util`
-    inside the `android {}` block). The fix is pushed in commit `cdc4835`; see
-    "Final Repository Status" for its result.
+- **CI status:** on commit `b39013d`, format, analyze, all tests (including goldens), the
+  release APK and the release AAB **all passed** on GitHub Actions. An earlier run failed
+  because of a Gradle Kotlin DSL error (`java.util` inside the `android {}` block); that is
+  fixed in `cdc4835`.
 - **Configuration**:
   - targetSdk 36 (meets Google Play's 31 Aug 2026 requirement), minSdk 24.
   - Core library desugaring enabled.
@@ -168,8 +167,7 @@ delivery, the OS contact picker and SMS/phone intents cannot be exercised headle
 
 ## iOS
 - `.github/workflows/ios.yml` runs on macOS: tests without goldens, then
-  `flutter build ios --release --no-codesign`. The macOS tests passed in the first run; the
-  build step's result is under "Final Repository Status".
+  `flutter build ios --release --no-codesign`. **Both passed** on commit `b39013d`.
 - **Configuration**:
   - Bundle ID `app.keepclose`, deployment target 15.0.
   - The notification delegate is set in AppDelegate.
@@ -321,4 +319,6 @@ These are experimental gates, not proven benchmarks:
 
 ## Final Repository Status
 All work is committed and pushed to `claude/busy-einstein-8fr6o1`. No pull request was
-opened. CI results for the final commit are in the section below.
+opened. GitHub Actions on `b39013d`: **CI (format, analyze, test, APK, AAB) passed** and
+**iOS (test, no-codesign release build) passed**. Locally: 99/99 tests pass and the
+analyzer is clean.
