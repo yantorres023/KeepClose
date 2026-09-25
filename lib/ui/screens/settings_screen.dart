@@ -50,49 +50,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _deleteAll() async {
-    final controller = TextEditingController();
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setState) => AlertDialog(
-          title: const Text('Delete all data?'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'This permanently removes everyone, all reminders, dates, '
-                'moments and settings from this phone. Type DELETE to confirm.',
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                key: const Key('delete-confirm'),
-                controller: controller,
-                autofocus: true,
-                onChanged: (_) => setState(() {}),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.error,
-                foregroundColor: Theme.of(context).colorScheme.onError,
-              ),
-              onPressed: controller.text.trim() == 'DELETE'
-                  ? () => Navigator.pop(context, true)
-                  : null,
-              child: const Text('Delete everything'),
-            ),
-          ],
-        ),
-      ),
+      builder: (_) => const _DeleteAllDialog(),
     );
-    controller.dispose();
     if (!(confirmed ?? false) || !mounted) return;
     final deps = AppScope.of(context);
     await guardedWrite(context, () async {
@@ -203,6 +164,68 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Requires typing DELETE before wiping everything.
+class _DeleteAllDialog extends StatefulWidget {
+  const _DeleteAllDialog();
+
+  @override
+  State<_DeleteAllDialog> createState() => _DeleteAllDialogState();
+}
+
+class _DeleteAllDialogState extends State<_DeleteAllDialog> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return AlertDialog(
+      title: const Text('Delete all data?'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'This permanently removes everyone, all reminders, dates, '
+              'moments and settings from this phone. Type DELETE to confirm.',
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              key: const Key('delete-confirm'),
+              controller: _controller,
+              autofocus: true,
+              autocorrect: false,
+              onChanged: (_) => setState(() {}),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          style: FilledButton.styleFrom(
+            backgroundColor: scheme.error,
+            foregroundColor: scheme.onError,
+          ),
+          onPressed: _controller.text.trim() == 'DELETE'
+              ? () => Navigator.pop(context, true)
+              : null,
+          child: const Text('Delete everything'),
+        ),
+      ],
     );
   }
 }

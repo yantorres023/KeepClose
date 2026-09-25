@@ -29,6 +29,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('People')),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'fab-people',
         key: const Key('fab-add-person'),
         onPressed: _add,
         icon: const Icon(Icons.person_add_alt),

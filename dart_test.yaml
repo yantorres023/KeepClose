@@ -1,0 +1,3 @@
+tags:
+  golden:
+    description: Pixel comparisons; generated on Linux and only run on Linux CI.

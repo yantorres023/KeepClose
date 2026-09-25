@@ -128,6 +128,7 @@ class _PersonView extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'fab-person',
         key: const Key('fab-person-remember'),
         onPressed: () => rememberToAsk(context, person: person),
         icon: const Icon(Icons.edit_note),

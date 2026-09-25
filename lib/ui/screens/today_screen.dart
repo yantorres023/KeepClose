@@ -30,6 +30,7 @@ class TodayScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Today')),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'fab-today',
         key: const Key('fab-remember'),
         onPressed: () => rememberToAsk(context),
         icon: const Icon(Icons.edit_note),
@@ -244,7 +245,7 @@ class ReminderCard extends StatelessWidget {
       if (ok && context.mounted) {
         showUndo(
           context,
-          'Moved to $when.',
+          'We\'ll remind you $when.',
           () => repo.restoreFollowUp(original),
         );
       }

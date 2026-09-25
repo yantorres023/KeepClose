@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/drift.dart';
 
 import '../domain/local_date.dart';
@@ -527,16 +529,46 @@ class KeepCloseRepository {
 
   // --------------------------------------------------------------- helpers
 
-  Stream<T> _watch<T>(
-    List<TableInfo> tables,
-    Future<T> Function() load,
-  ) async* {
-    yield await load();
-    await for (final _ in db.tableUpdates(
-      TableUpdateQuery.onAllTables(tables),
-    )) {
-      yield await load();
+  /// Emits [load] now and again after any change to [tables]. Bursts of
+  /// changes are coalesced so a slow load never queues up stale work.
+  Stream<T> _watch<T>(List<TableInfo> tables, Future<T> Function() load) {
+    late final StreamController<T> controller;
+    StreamSubscription<void>? updates;
+    var loading = false;
+    var dirty = false;
+
+    Future<void> refresh() async {
+      if (loading) {
+        dirty = true;
+        return;
+      }
+      loading = true;
+      try {
+        do {
+          dirty = false;
+          final value = await load();
+          if (!controller.isClosed) controller.add(value);
+        } while (dirty && !controller.isClosed);
+      } catch (e, st) {
+        if (!controller.isClosed) controller.addError(e, st);
+      } finally {
+        loading = false;
+      }
     }
+
+    controller = StreamController<T>(
+      onListen: () {
+        updates = db
+            .tableUpdates(TableUpdateQuery.onAllTables(tables))
+            .listen((_) => refresh());
+        refresh();
+      },
+      onCancel: () {
+        updates?.cancel();
+        updates = null;
+      },
+    );
+    return controller.stream;
   }
 
   String _validName(String name) {
