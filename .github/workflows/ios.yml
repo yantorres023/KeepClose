@@ -1,0 +1,27 @@
+name: iOS
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios:
+    name: Test and build (no codesign)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.5"
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      # Goldens are generated on Linux; font rendering differs on macOS.
+      - name: Test
+        run: flutter test --exclude-tags golden
+      - name: Build iOS (unsigned)
+        run: flutter build ios --release --no-codesign
