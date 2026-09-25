@@ -40,7 +40,7 @@ No permission prompts during onboarding.
   - Birthday: "Ana's birthday" (+ "turns 30" only if year known)
   - Event: "Lucas: moving day"
   - Check-in: "Thinking of Lucas?"
-- Actions (text buttons, ≥48dp): **Done** · **Later** · overflow **Let go**. Done on a follow-up → snackbar "Nice. Add what you learned?" (action opens Log moment prefilled). Every action has Undo.
+- Actions (buttons, ≥48dp): **Asked** (follow-ups) / **Done** (dates, check-ins) · **Later** · **Let go** (not shown for dates). "Asked" records a moment ("Asked about …") on the person's page automatically; snackbar "Nice. Saved to {Name}'s moments." Every action has Undo. What the user learned can be noted afterwards via "We talked" on the person page (kept out of the Today flow to avoid an extra step).
 - Empty state: "Nothing to remember today. When someone mentions something coming up, tap Remember to ask."
 
 ## People

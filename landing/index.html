@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KeepClose — Remember to ask</title>
+<meta name="description" content="Jot down what the people you care about tell you — an interview, a move, a hard week — and get one gentle reminder to ask how it went. Private, on your phone, no account.">
+<style>
+  :root {
+    --bg: #f6f8f5; --surface: #ffffff; --text: #1b2420; --muted: #4c5a53;
+    --accent: #3f6b5b; --accent-soft: #dcebe3; --line: #e1e7e3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #121714; --surface: #1a211d; --text: #e6ede9; --muted: #a9b8b0;
+      --accent: #8fc4ad; --accent-soft: #24332c; --line: #2a342f; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 0 16px 64px; }
+  header { padding: 56px 0 24px; }
+  .brand { font-weight: 700; color: var(--accent); letter-spacing: .02em; }
+  h1 { font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1.1; margin: 16px 0; }
+  h2 { font-size: 1.5rem; margin: 48px 0 12px; }
+  p.lead { font-size: 1.2rem; color: var(--muted); max-width: 36em; }
+  .cta { display: inline-block; margin-top: 16px; padding: 14px 22px; border-radius: 999px;
+    background: var(--accent); color: var(--bg); text-decoration: none; font-weight: 600; }
+  .cta:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .note { font-size: .9rem; color: var(--muted); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin: 12px 0; }
+  .steps { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .steps .card b { display: block; color: var(--accent); }
+  .example { background: var(--accent-soft); border-radius: 16px; padding: 16px 20px; font-weight: 600; }
+  ul.plain { padding-left: 1.1em; }
+  details { border-bottom: 1px solid var(--line); padding: 12px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  footer { margin-top: 64px; font-size: .9rem; color: var(--muted); }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand">KeepClose</div>
+    <h1>Remember to ask.</h1>
+    <p class="lead">When someone tells you about a job interview, a move, or a hard week, jot it down.
+      KeepClose gently reminds you to ask how it went — so they know you were listening.</p>
+    <a class="cta" href="#beta">Join the early beta</a>
+    <p class="note">Private by design. Everything stays on your phone. No account.</p>
+  </header>
+
+  <section aria-labelledby="problem">
+    <h2 id="problem">Caring isn't the hard part. Remembering is.</h2>
+    <p>Friends share what's coming up in their lives. Then work, travel and busy weeks happen,
+      and the moment to ask "how did it go?" quietly passes. Most tools for this feel like a
+      spreadsheet for your friendships. KeepClose is just one line and a day.</p>
+    <p class="note">Research suggests people tend to underestimate how much others appreciate
+      being reached out to (Liu et al., <i>Journal of Personality and Social Psychology</i>, 2022).</p>
+  </section>
+
+  <section aria-labelledby="how">
+    <h2 id="how">How it works</h2>
+    <div class="steps">
+      <div class="card"><b>1. Jot it down</b>"Ask Mariana how the interview went" — Friday.</div>
+      <div class="card"><b>2. Forget about it</b>At most one gentle reminder a day, only when there's something to remember.</div>
+      <div class="card"><b>3. Reach out</b>Send the message yourself, in your own words. Tap "Asked" if you like.</div>
+    </div>
+    <p class="example">Ask Mariana: how the interview went</p>
+    <p>Also: birthdays and one-off dates like moving day, and an optional "check in now and then"
+      nudge for people you'd like to keep close. No scores, no streaks, no guilt.</p>
+  </section>
+
+  <section aria-labelledby="privacy">
+    <h2 id="privacy">Private by design</h2>
+    <ul class="plain">
+      <li>Everything is stored on your phone. There's no account and no server.</li>
+      <li>KeepClose never reads your messages and never asks for access to your contacts.</li>
+      <li>Lock-screen reminders don't show names or notes unless you choose to.</li>
+      <li>No ads, no analytics, no tracking.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="faq">
+    <h2 id="faq">Questions</h2>
+    <details><summary>Is it a "personal CRM"?</summary>
+      <p>No. There are no profiles to maintain or dashboards to check. You add a person when
+        there's something to remember about them.</p></details>
+    <details><summary>Does it send messages for me?</summary>
+      <p>Never. It can open your messaging app with the number filled in; you write and send.</p></details>
+    <details><summary>Will it nag me?</summary>
+      <p>At most one notification a day, only on days with something to remember. You can turn
+        it off and still see everything in the app.</p></details>
+    <details><summary>What if I lose my phone?</summary>
+      <p>Your data is included in your phone's own backup (iCloud or Google) if you have that
+        turned on. KeepClose has no copy.</p></details>
+    <details><summary>Does it use AI?</summary>
+      <p>No. Reminders are simple and predictable, and nothing leaves your phone.</p></details>
+    <details><summary>How much does it cost?</summary>
+      <p>The beta is free. We haven't decided on pricing; the core will stay free.</p></details>
+    <details><summary>Which phones?</summary>
+      <p>iPhone and Android. The app is in early testing and not in the stores yet.</p></details>
+  </section>
+
+  <section id="beta" aria-labelledby="beta-title">
+    <h2 id="beta-title">Join the early beta</h2>
+    <div class="card">
+      <p>KeepClose is being tested with a small group before launch. If you'd like to try it,
+        send us a note and tell us which phone you use.</p>
+      <!-- HUMAN ACTION: replace the placeholder address (or swap in a sign-up form) before publishing. -->
+      <a class="cta" href="mailto:beta@example.com?subject=KeepClose%20beta">Email to join the beta</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>KeepClose (working name). <a href="../legal/PRIVACY_POLICY.md">Privacy policy (draft)</a></p>
+  </footer>
+</main>
+</body>
+</html>

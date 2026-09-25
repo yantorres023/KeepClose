@@ -6,7 +6,7 @@
 - Notifications: **flutter_local_notifications** + **timezone** + **flutter_timezone**.
 - Contacts: **flutter_native_contact_picker** (OS picker; no READ_CONTACTS / NSContacts permission).
 - Reach out: **url_launcher** (`sms:` / `tel:`).
-- `intl` for date formatting.
+- Date wording is hand-written English in `domain/copy.dart` (no `intl` dependency in V1; localization is future work).
 - No state-management package: repositories expose drift `Stream`s; UI uses `StreamBuilder`; dependencies passed through a small `AppScope` InheritedWidget. Rationale in DECISIONS D-006.
 
 ## Architecture

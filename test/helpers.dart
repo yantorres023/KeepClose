@@ -97,8 +97,23 @@ class FakeLauncher implements Launcher {
 /// A fixed "today" used across tests: Friday 25 September 2026.
 final testToday = LocalDate(2026, 9, 25);
 
+/// Mutable clock so tests can simulate the day changing.
+class TestClock {
+  TestClock(this.day);
+  LocalDate day;
+}
+
 class TestEnv {
-  TestEnv._(this.db, this.deps, this.notifications, this.picker, this.launcher);
+  TestEnv._(
+    this.db,
+    this.deps,
+    this.notifications,
+    this.picker,
+    this.launcher,
+    this.clock,
+  );
+
+  final TestClock clock;
 
   final AppDatabase db;
   final AppDependencies deps;
@@ -116,9 +131,14 @@ class TestEnv {
     driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
     initTimezones();
     final day = today ?? testToday;
+    final testClock = TestClock(day);
     final clock = now ?? DateTime(day.year, day.month, day.day, 8);
     final db = AppDatabase(NativeDatabase.memory());
-    final repo = KeepCloseRepository(db, today: () => day, now: () => clock);
+    final repo = KeepCloseRepository(
+      db,
+      today: () => testClock.day,
+      now: () => clock,
+    );
     final notifications = FakeNotificationService(permission: permission);
     final picker = FakeContactPicker();
     final launcher = FakeLauncher();
@@ -133,7 +153,7 @@ class TestEnv {
       contactPicker: picker,
       launcher: launcher,
     );
-    return TestEnv._(db, deps, notifications, picker, launcher);
+    return TestEnv._(db, deps, notifications, picker, launcher, testClock);
   }
 
   Future<void> close() => db.close();

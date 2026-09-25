@@ -384,4 +384,29 @@ void main() {
     expect(moments!.single.kind, MomentKind.talked);
     await tearDownApp(tester, env);
   });
+
+  testWidgets('resuming on a new day refreshes Today', (tester) async {
+    final env = await pumpApp(
+      tester,
+      seed: (e) async {
+        final id = await e.repo.addPerson(name: 'Ana');
+        await e.repo.addFollowUp(
+          personId: id,
+          body: 'the exam',
+          due: testToday.addDays(1),
+        );
+      },
+    );
+    expect(find.text('Coming up'), findsOneWidget);
+    expect(find.text('Ask Ana: the exam'), findsOneWidget);
+    expect(find.text('Asked'), findsNothing);
+
+    env.clock.day = testToday.addDays(1);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await settle(tester);
+    expect(find.text('Saturday, 26 September'), findsOneWidget);
+    expect(find.text('Asked'), findsOneWidget);
+    await tearDownApp(tester, env);
+  });
 }

@@ -70,7 +70,7 @@ cases; widgets; tablets/web/desktop polish; localization beyond English (V1).
 **US7 (F10/F12)** As a user I can see context before reaching out.
 - AC: Person detail shows note, open follow-ups, dates, rhythm, and the last ~10 moments.
 - AC: "We talked" logs a moment for today with optional one-line note.
-- AC: After marking a follow-up Done, the user may optionally add what they learned (saved as a moment) — skippable.
+- AC: Marking a follow-up "Asked" automatically saves a moment ("Asked about …"); what they learned can be added via "We talked" (optional, never prompted).
 
 **US8 (F11)** As a user I can start a message or call.
 - AC: If a phone number exists, Message/Call open the OS SMS/dialer with the number prefilled; KeepClose never sends anything.

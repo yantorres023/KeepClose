@@ -518,14 +518,18 @@ class KeepCloseRepository {
   Future<void> setNotificationPermissionAsked() =>
       _set('notification_permission_asked', 'true');
 
-  /// Irreversibly removes every person, reminder, moment and setting.
-  Future<void> deleteAllData() => db.transaction(() async {
-    await db.delete(db.moments).go();
-    await db.delete(db.importantDates).go();
-    await db.delete(db.followUps).go();
-    await db.delete(db.people).go();
-    await db.delete(db.settings).go();
-  });
+  /// Irreversibly removes every person, reminder, moment and setting, then
+  /// compacts the file so deleted rows don't linger in free pages.
+  Future<void> deleteAllData() async {
+    await db.transaction(() async {
+      await db.delete(db.moments).go();
+      await db.delete(db.importantDates).go();
+      await db.delete(db.followUps).go();
+      await db.delete(db.people).go();
+      await db.delete(db.settings).go();
+    });
+    await db.customStatement('VACUUM');
+  }
 
   // --------------------------------------------------------------- helpers
 

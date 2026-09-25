@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_scope.dart';
 import 'data/repository.dart';
+import 'domain/local_date.dart';
 import 'ui/screens/onboarding_screen.dart';
 import 'ui/screens/people_screen.dart';
 import 'ui/screens/settings_screen.dart';
@@ -61,6 +62,7 @@ class HomeShell extends StatefulWidget {
 
 class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   HomeTab _tab = HomeTab.today;
+  LocalDate? _day;
 
   @override
   void initState() {
@@ -98,15 +100,19 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       // The date or timezone may have changed while we were away.
-      AppScope.of(context).scheduler.sync();
-      setState(() {});
+      final deps = AppScope.of(context);
+      deps.scheduler.sync();
+      if (deps.today != _day) setState(() => _day = deps.today);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    _day ??= AppScope.of(context).today;
     return Scaffold(
+      // Keyed by day so date-dependent screens rebuild after midnight.
       body: IndexedStack(
+        key: ValueKey(_day),
         index: _tab.index,
         children: const [TodayScreen(), PeopleScreen(), SettingsScreen()],
       ),
